@@ -1,5 +1,5 @@
 
-require 'dockingstation'
+require 'docking_station'
 require 'bike'
 
 describe DockingStation do 
@@ -42,7 +42,7 @@ describe DockingStation do
 
   end
   
-  it 'checked if there is a bike docked' do
+  it 'checks if there is a bike docked' do
     docking_station = DockingStation.new
     new_bike = Bike.new
     docking_station.docking(new_bike)
@@ -54,22 +54,13 @@ describe DockingStation do
     expect{docking_station.release_bike}.to raise_error("NoBikeError")
   end
 
-  it 'does not accept any new bikes once capcaity is hit (1 bike already docked)' do
-    docking_station = DockingStation.new
-    new_bike = Bike.new
-    docking_station.docking(new_bike)
-    new_bike1 = Bike.new
-    expect{docking_station.docking(new_bike1)}.to raise_error("Already at capacity")
+  it 'can store up to 20 bikes' do 
+    expect{20.times{subject.docking(Bike.new)}}.not_to raise_error
+  end
+
+  it 'does not accept any new bikes once capcaity is hit (20)' do
+    station = DockingStation.new
+    expect{21.times{subject.docking(Bike.new)}}.to raise_error("Already at capacity")
   end 
 
 end
-
-
-
-# As a maintainer of the system,
-# So that I can control the distribution of bikes,
-# I'd like docking stations not to accept more bikes than their capacity.
-
-# Write RSpec tests that expect errors
-# Use fail or raise to raise an error
-# Use a 'guard condition'

@@ -4,6 +4,7 @@ class DockingStation
 
   def initialize
     @docked_bikes = []
+    @capacity = 20
   end
 
   def release_bike
@@ -12,7 +13,7 @@ class DockingStation
   end
 
   def docking(bike)
-   unless @docked_bikes.empty?
+   if @docked_bikes.count == @capacity
     raise "Already at capacity"
    end
     @docked_bikes.push(bike)
