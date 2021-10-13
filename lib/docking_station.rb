@@ -13,9 +13,14 @@ class DockingStation
   end
 
   def docking(bike)
-   if @docked_bikes.count == @capacity
-    raise "Already at capacity"
-   end
+    raise "Already at capacity" if self.full?
     @docked_bikes.push(bike)
   end 
+
+  private
+  
+  def full?
+    @docked_bikes.count == @capacity
+  end
+
 end 
