@@ -55,7 +55,9 @@ describe DockingStation do
   end
 
   it 'can store up to 20 bikes' do 
-    expect{20.times{subject.docking(Bike.new)}}.not_to raise_error
+    expect {DockingStation::DEFAULT_CAPACITY.times do
+      subject.docking(Bike.new)
+      end}.not_to raise_error
   end
 
   it 'does not accept any new bikes once capcaity is hit (20)' do
