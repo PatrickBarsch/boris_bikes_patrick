@@ -1,13 +1,14 @@
 require 'bike'
 
 describe Bike do
-  it 'responds to the method working' do
-    new_bike = Bike.new
-    actual = new_bike.respond_to?(:working?)
-    expected = true
-    expect(actual).to be expected
+  
+  it 'works per default' do
+    expect(subject).to be_working
+  end
+
+  it 'can be reported broken' do 
+    subject.report_broken
+    expect(subject.broken).to eq true
   end
 
 end
-
-# Add a test to your bike_spec.rb file that expects Bike instances to respond_to the method working?
