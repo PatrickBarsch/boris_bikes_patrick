@@ -4,7 +4,7 @@ require 'bike'
 
 describe DockingStation do 
 
-  let (:bike) {double(:bike)}
+  let (:bike) {double(:bike, working?: true)}
 
   it "will recognise 'release_bike'" do
     expect(subject).to respond_to(:release_bike)  
@@ -20,13 +20,13 @@ describe DockingStation do
   end
 
   it "returns a bike, which is working" do
-    subject.dock(new_bike)
+    subject.dock(bike)
     expect(subject.release_bike).to be_working
 
   end
   
   it 'checks that a bike that is put in is properly released again' do
-    new_bike = new_bike
+    new_bike = bike
     subject.dock(new_bike)
     expect(subject.release_bike).to be new_bike
   end 
@@ -54,17 +54,15 @@ describe DockingStation do
   end
 
   it 'does not release a broken bike' do
-    bike = new_bike
-    bike.report_broken
+    bike = double(:bike, working?: false)
     subject.dock(bike)
     expect{subject.release_bike}.to raise_error("NoBikeError")
   end
 
   it 'finds and releases only working bikes' do
     3.times do |i|
-      bike = new_bike
-      bike.report_broken if i.even?
-      subject.dock(bike)
+      working = i.even?
+      subject.dock(double(:bike, working?: working))
     end
     expect(subject.release_bike.working?).to eq true
   end
